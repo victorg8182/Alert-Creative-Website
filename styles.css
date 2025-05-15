@@ -1,3 +1,34 @@
+/* Font imports and base styles */
+@font-face {
+    font-family: 'Avenir';
+    src: local('Avenir Next LT Pro'),
+         local('Avenir Next'),
+         local('Avenir');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: local('Avenir Next LT Pro Medium'),
+         local('Avenir Next Medium'),
+         local('Avenir Medium');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: local('Avenir Next LT Pro Demi'),
+         local('Avenir Next Demi'),
+         local('Avenir Demi');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --primary-gradient: linear-gradient(180deg, #449fc5, #256fa8);
     --primary-color: #1B7CA6;
@@ -10,7 +41,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Avenir, 'Avenir Next LT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-family: 'Avenir', 'Avenir Next LT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -57,23 +91,24 @@ header div {
 }
 
 h1 {
+    font-weight: 500;
     font-size: 6.5rem;
     color: var(--text-color);
     margin-bottom: 0rem;
-    font-weight: 480;
 }
 
 h2 {
+    font-weight: 400;
     font-size: 1.2rem;
     color: var(--text-color);
     margin-bottom: 2rem;
-    font-weight: 400;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
 }
 
 button {
+    font-weight: 600;
     background: var(--primary-gradient);
     color: var(--secondary-color);
     border: none;
@@ -81,7 +116,6 @@ button {
     font-size: 1.1rem;
     border-radius: 10px;
     cursor: pointer;
-    font-weight: 600;
     transition: transform 0.3s ease;
 }
 
@@ -90,12 +124,12 @@ button:hover {
 }
 
 h3 {
+    font-weight: 600;
     text-align: center;
     font-size: 2.5rem;
     margin: 2rem 0;
     color: var(--text-color);
     position: relative;
-    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -307,12 +341,14 @@ img {
 }
 
 h4 {
+    font-weight: 600;
     font-size: 1.8rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
 }
 
 p {
+    font-weight: 400;
     font-size: 1.1rem;
     color: var(--text-color);
     opacity: 1;
@@ -376,8 +412,8 @@ p {
 }
 
 .about-point h4 {
-    font-size: 1.2rem;
     font-weight: 600;
+    font-size: 1.2rem;
     margin-bottom: 0.3rem;
     background: linear-gradient(180deg, #3a8db3, #1f6a8f);
     -webkit-background-clip: text;
@@ -386,6 +422,7 @@ p {
 }
 
 .about-point p {
+    font-weight: 400;
     font-size: 0.95rem;
     color: var(--text-color);
     line-height: 1.5;
@@ -429,6 +466,7 @@ p {
 }
 
 .contact-subtitle {
+    font-weight: 400;
     color: white;
     font-size: 1.2rem;
     margin-bottom: 2.5rem;
@@ -627,10 +665,10 @@ p {
 }
 
 .nav-links a {
+    font-weight: 500;
     color: var(--text-color);
     text-decoration: none;
     font-size: 1rem;
-    font-weight: 500;
     transition: color 0.3s ease;
 }
 
@@ -1131,13 +1169,14 @@ button {
 }
 
 .info-box-title {
+    font-weight: 600;
     color: white;
     font-size: 1.8rem;
     margin-bottom: 1rem;
-    font-weight: 600;
 }
 
 .info-box-text {
+    font-weight: 400;
     color: white;
     font-size: 1rem;
     line-height: 1.5;
@@ -1174,6 +1213,7 @@ button {
 }
 
 .shorts-subtitle {
+    font-weight: 400;
     text-align: center;
     color: var(--text-color);
     font-size: 1.2rem;
