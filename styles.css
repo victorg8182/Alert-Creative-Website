@@ -472,7 +472,7 @@ p {
 }
 
 .contact-section .contact-buttons .contact-icon:hover {
-    transform: scale(1.1);
+    transform: scale(1.06);
     opacity: 0.9;
 }
 
@@ -872,6 +872,11 @@ button {
     overflow: hidden;
     padding: 0;
     z-index: 0;
+    transition: transform 0.3s ease;
+}
+
+.video-wrapper:hover {
+    transform: scale(1.01);
 }
 
 .video-wrapper::before {
@@ -1307,31 +1312,3 @@ button {
 .highlight {
     color: var(--primary-color);
 }
-
-/* Safari-specific adjustments */
-@supports (-webkit-touch-callout: none) {
-    h3 {
-        font-weight: 400;
-        transform: scale(0.99);
-        transform-origin: center;
-    }
-    
-    h4 {
-        font-weight: 400;
-        transform: scale(0.99);
-        transform-origin: center;
-    }
-    
-    .portfolio-section h4 {
-        font-weight: 400;
-        transform: scale(0.99);
-        transform-origin: center;
-    }
-    
-    .about-point h4 {
-        font-weight: 400;
-        transform: scale(0.99);
-        transform-origin: center;
-    }
-}
-
