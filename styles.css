@@ -107,7 +107,7 @@ button:hover {
 }
 
 .button-link:hover {
-    transform: scale(1.005);
+    transform: scale(1.025);
 }
 
 h3 {
