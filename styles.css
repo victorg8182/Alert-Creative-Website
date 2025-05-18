@@ -88,7 +88,7 @@ button {
 }
 
 button:hover {
-    transform: scale(1.005);
+    transform: scale(1.015);
 }
 
 /* Style for link that looks like a button */
