@@ -91,6 +91,25 @@ button:hover {
     transform: scale(1.005);
 }
 
+/* Style for link that looks like a button */
+.button-link {
+    background: var(--primary-gradient);
+    color: var(--secondary-color);
+    border: none;
+    padding: 0.66rem 1.33rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.button-link:hover {
+    transform: scale(1.005);
+}
+
 h3 {
     text-align: center;
     font-size: 2.5rem;

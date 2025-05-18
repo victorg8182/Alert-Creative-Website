@@ -126,28 +126,3 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
     lazyLoadImages();
 });
-
-// Simple instant scroll to contact section
-function scrollToContact() {
-    const contactSection = document.getElementById('contact');
-    if (!contactSection) return;
-    
-    // Get the position of the contact section
-    const headerOffset = 70; // Height of the navbar
-    const elementPosition = contactSection.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-    
-    // Instantly scroll to the section
-    window.scrollTo(0, offsetPosition);
-}
-
-// Add event listener to ensure proper scroll on first click
-document.addEventListener('DOMContentLoaded', function() {
-    const startButton = document.querySelector('header button');
-    if (startButton) {
-        startButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            scrollToContact();
-        });
-    }
-});
