@@ -127,17 +127,54 @@ document.addEventListener('DOMContentLoaded', () => {
     lazyLoadImages();
 });
 
-// Scroll to contact section
+// Completely smooth scrolling to contact section
 function scrollToContact() {
     const contactSection = document.getElementById('contact');
-    const headerOffset = 60; // Height of fixed navbar
-    const elementPosition = contactSection.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-    window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-    });
+    if (!contactSection) return;
+    
+    // The main scrolling function that can be called recursively
+    function smoothScrollTo(duration) {
+        const headerOffset = 60; // Height of fixed navbar
+        const startPosition = window.pageYOffset;
+        const targetPosition = contactSection.getBoundingClientRect().top + startPosition - headerOffset;
+        const distance = targetPosition - startPosition;
+        
+        // If we're already very close, we're done
+        if (Math.abs(distance) < 5) return;
+        
+        let startTime = null;
+        
+        function step(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            
+            // Easing function for smoother movement
+            const ease = t => t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1;
+            const easeProgress = ease(progress);
+            
+            window.scrollTo(0, startPosition + distance * easeProgress);
+            
+            if (timeElapsed < duration) {
+                requestAnimationFrame(step);
+            } else {
+                // Check if we need to continue scrolling smoothly
+                setTimeout(() => {
+                    const currentPosition = contactSection.getBoundingClientRect().top;
+                    // If we're still not close enough, continue scrolling smoothly
+                    if (Math.abs(currentPosition - headerOffset) > 10) {
+                        // Continue with a shorter, smooth scroll
+                        smoothScrollTo(800);
+                    }
+                }, 50);
+            }
+        }
+        
+        requestAnimationFrame(step);
+    }
+    
+    // Start the smooth scrolling process
+    smoothScrollTo(1000);
 }
 
 // Add event listener to ensure proper scroll on first click
