@@ -130,12 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Contact Form Functionality
 function initContactForm() {
-    if (!window.CONFIG || !window.CONFIG.emailjs) {
-        console.error('EmailJS configuration not found.');
-        return;
-    }
-    
-    emailjs.init(window.CONFIG.emailjs.publicKey);
+    emailjs.init('528mNb5rsXFiU2uwd');
     
     const form = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
@@ -167,8 +162,8 @@ function initContactForm() {
         
         try {
             const response = await emailjs.send(
-                window.CONFIG.emailjs.serviceId,
-                window.CONFIG.emailjs.templateId,
+                'service_fqh0j1s',
+                'template_ou8blqh',
                 {
                     from_name: name,
                     from_email: email,
