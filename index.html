@@ -14,7 +14,9 @@
     <meta property="twitter:image" content="https://alertcreative.com/other_assets/thumbnail_preview.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
     <script src="index.js" defer></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -339,17 +341,45 @@
 
     <div id="contact" class="contact-section">
         <h1>Start Creating</h1>
-        <p class="contact-subtitle">Quick, skilled, and reliable. Reach out today to get started!</p>
-        <div class="contact-buttons">
-            <a href="https://www.instagram.com/editedbyalert/" target="_blank" class="contact-icon">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://x.com/alertedits" target="_blank" class="contact-icon">
-                <i class="fab fa-x-twitter"></i>
-            </a>
-            <a href="mailto:editedbyalert@gmail.com" class="contact-icon">
-                <i class="far fa-envelope"></i>
-            </a>
+        <p class="contact-subtitle">Reach out today to get started!</p>
+        
+        <form id="contact-form" class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your Name">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required placeholder="Tell me about what you're looking for..." rows="5"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submit-btn">
+                <span class="btn-text">Send Message</span>
+                <span class="btn-loading" style="display: none;">Sending...</span>
+            </button>
+            
+            <div id="form-status" class="form-status"></div>
+        </form>
+        
+        <div class="contact-alternative">
+            <p>Or reach out directly:</p>
+            <div class="contact-buttons">
+                <a href="https://www.instagram.com/editedbyalert/" target="_blank" class="contact-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://x.com/alertedits" target="_blank" class="contact-icon">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="mailto:editedbyalert@gmail.com" class="contact-icon">
+                    <i class="far fa-envelope"></i>
+                </a>
+            </div>
         </div>
     </div>
 </body>

@@ -125,4 +125,95 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize features
     initCarousel();
     lazyLoadImages();
+    initContactForm();
 });
+
+// Contact Form Functionality
+function initContactForm() {
+    if (!window.CONFIG || !window.CONFIG.emailjs) {
+        console.error('EmailJS configuration not found.');
+        return;
+    }
+    
+    emailjs.init(window.CONFIG.emailjs.publicKey);
+    
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.querySelector('.btn-text');
+    const btnLoading = document.querySelector('.btn-loading');
+    const formStatus = document.getElementById('form-status');
+    
+    if (!form) return;
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const name = formData.get('name').trim();
+        const email = formData.get('email').trim();
+        const message = formData.get('message').trim();
+        
+        if (!name || !email || !message) {
+            showFormStatus('Please fill in all fields.', 'error');
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            showFormStatus('Please enter a valid email address.', 'error');
+            return;
+        }
+        
+        setLoadingState(true);
+        
+        try {
+            const response = await emailjs.send(
+                window.CONFIG.emailjs.serviceId,
+                window.CONFIG.emailjs.templateId,
+                {
+                    from_name: name,
+                    from_email: email,
+                    message: message,
+                    to_email: 'editedbyalert@gmail.com'
+                }
+            );
+            
+            console.log('Email sent successfully:', response);
+            showFormStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
+            form.reset();
+            
+        } catch (error) {
+            console.error('Error sending email:', error);
+            showFormStatus('Sorry, there was an error sending your message. Please try again or contact me directly.', 'error');
+        } finally {
+            setLoadingState(false);
+        }
+    });
+    
+    function setLoadingState(isLoading) {
+        submitBtn.disabled = isLoading;
+        if (isLoading) {
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+        } else {
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+        }
+    }
+    
+    function showFormStatus(message, type) {
+        formStatus.textContent = message;
+        formStatus.className = `form-status ${type}`;
+        formStatus.style.display = 'block';
+        
+        if (type === 'success') {
+            setTimeout(() => {
+                formStatus.style.display = 'none';
+            }, 5000);
+        }
+    }
+    
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+}
