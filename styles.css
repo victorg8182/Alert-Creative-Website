@@ -42,7 +42,7 @@ body {
 }
 
 header {
-    height: 40vh;
+    height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,6 +50,7 @@ header {
     position: relative;
     overflow: hidden;
     margin-top: 70px;
+    margin-bottom: 0.5rem;
 }
 
 header div {
@@ -63,6 +64,7 @@ h1 {
     color: var(--text-color);
     margin-bottom: 0rem;
     font-weight: 480;
+
 }
 
 h2 {
@@ -520,7 +522,7 @@ p {
 
 /* Clients Carousel */
 .clients-carousel {
-    padding: 2rem 0;
+    padding: 0.5rem 0;
     overflow: hidden;
     position: relative;
     background: var(--background-color);
@@ -535,7 +537,7 @@ p {
 .carousel-container {
     width: 100%;
     overflow: hidden;
-    padding: 2rem 0;
+    padding: 0.25rem 0;
 }
 
 .carousel-track {
@@ -584,6 +586,14 @@ p {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+#work-with-100 {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.55;
+    padding-top: 1.8rem;
+    padding-bottom: 0rem;
 }
 
 /* Mobile optimizations */
