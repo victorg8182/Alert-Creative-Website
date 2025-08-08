@@ -6,13 +6,23 @@
     --text-color: #000000;
 }
 
+/* Ensure anchors land correctly beneath fixed navbar */
+#portfolio, #short-form, #results, #about, #contact {
+    scroll-margin-top: 88px;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Avenir, "Avenir Next",'Avenir Next LT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: "Avenir Next", Avenir, 'Avenir Next LT Pro', 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+@supports (-webkit-touch-callout: none) {
+  html {
+    font-family: "Avenir Next", Avenir, 'Avenir Next LT Pro', 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, sans-serif;
+  }
 }
 
 body {
@@ -445,26 +455,56 @@ p {
     text-align: center;
     padding: 6rem 2rem;
     background: linear-gradient(135deg, #449fc5 0%, #256fa8 100%);
-    min-height: 100vh;
+    min-height: 80vh;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+.contact-inner {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3rem;
+    align-items: start;
+    min-height: 70vh;
+}
+
+.contact-copy {
+    text-align: center;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    align-items: center;
+    min-height: 70vh;
+    gap: 1rem;
+}
+.contact-head { align-self: center; }
+
+.contact-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+}
+
 .contact-section h1 {
     color: white;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: clamp(3.25rem, 8.5vw, 6.5rem);
+    line-height: 1.1;
 }
 
 .contact-subtitle {
     color: white;
-    font-size: 1.2rem;
-    margin-bottom: 2.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
     opacity: 0.9;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 700px;
 }
 
 .contact-buttons {
@@ -499,14 +539,11 @@ p {
 
 /* Responsive adjustments for contact section */
 @media (max-width: 768px) {
-    .contact-section .contact-buttons .contact-icon {
-        font-size: 2rem;
-    }
-    
-    .contact-subtitle {
-        font-size: 1.1rem;
-        padding: 0 1rem;
-    }
+    .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-copy { text-align: center; align-items: center; justify-content: center; }
+    .contact-section h1 { font-size: 2.2rem; }
+    .contact-subtitle { font-size: 1.05rem; padding: 0 1rem; margin-bottom: 2rem; max-width: 520px; }
+    .contact-form { padding: 2rem; margin: 0 1rem 2rem 1rem; }
 }
 
 @media (max-width: 480px) {
@@ -538,6 +575,8 @@ p {
     width: 100%;
     overflow: hidden;
     padding: 0.25rem 0;
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, #000 8%, #000 92%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, #000 8%, #000 92%, rgba(0,0,0,0) 100%);
 }
 
 .carousel-track {
@@ -594,6 +633,33 @@ p {
     opacity: 0.55;
     padding-top: 1.8rem;
     padding-bottom: 0rem;
+}
+
+/* Subtle reveal animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 600ms ease, transform 600ms ease;
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 600ms ease, transform 600ms ease;
+}
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* Mobile optimizations */
@@ -1180,8 +1246,11 @@ button {
     flex: 1;
     padding: 2rem;
     border-radius: 15px;
-    background: linear-gradient(180deg, #449fc5 0%, #256fa8 100%);
-    box-shadow: 0 4px 15px rgba(37, 111, 168, 0.2);
+    background: var(--primary-gradient);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease;
 }
 
@@ -1190,17 +1259,17 @@ button {
 }
 
 .info-box-title {
-    color: white;
+    color: var(--secondary-color);
     font-size: 1.8rem;
     margin-bottom: 1rem;
     font-weight: 600;
 }
 
 .info-box-text {
-    color: white;
+    color: var(--secondary-color);
     font-size: 1rem;
-    line-height: 1.5;
-    opacity: 0.9;
+    line-height: 1.6;
+    opacity: 1;
 }
 
 /* Mobile responsiveness for info boxes */
@@ -1344,37 +1413,45 @@ button {
 
 /* Contact Form Styles */
 .contact-form {
-    max-width: 600px;
+    max-width: 680px;
     width: 100%;
-    margin: 0 auto 3rem auto;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    margin: 0;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 20px;
-    padding: 2.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2.25rem 2.25rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    align-self: center;
+    height: auto;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 0.5rem;
 }
 
 .form-group label {
     display: block;
     color: white;
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.06rem;
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 1rem;
+    padding: 1.1rem 1.1rem;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.1);
     color: white;
-    font-size: 1rem;
+    font-size: 1.06rem;
     transition: all 0.3s ease;
     font-family: inherit;
 }
@@ -1395,22 +1472,23 @@ button {
 
 .form-group textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 150px;
 }
 
 .submit-btn {
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem 0rem;
     background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
     color: #256fa8;
     border: none;
     border-radius: 10px;
-    font-size: 1.1rem;
+    font-size: 1.06rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    margin-bottom: 2.5rem;
 }
 
 .submit-btn:hover {
@@ -1434,7 +1512,7 @@ button {
 }
 
 .form-status {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     padding: 1rem;
     border-radius: 10px;
     text-align: center;
@@ -1457,7 +1535,7 @@ button {
 }
 
 .contact-alternative {
-    margin-top: 2rem;
+    padding-bottom: 0rem;
 }
 
 .contact-alternative p {
@@ -1488,7 +1566,7 @@ button {
 @media (max-width: 480px) {
     .contact-form {
         padding: 1.5rem;
-        margin: 0 0.5rem 3rem 0.5rem;
+        margin: 0 0.5rem 2rem 0.5rem;
     }
     
     .form-group {

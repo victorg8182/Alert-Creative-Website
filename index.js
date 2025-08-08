@@ -98,14 +98,33 @@ function debounce(func, wait) {
     };
 }
 
-// Smooth scroll with debouncing
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', debounce(function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href'))?.scrollIntoView({
-            behavior: 'smooth'
-        });
-    }, 100));
+function robustScrollToHash(href, { withAdjustments = false } = {}) {
+    const target = document.querySelector(href);
+    if (!target) return;
+    // Use CSS scroll-margin-top to account for fixed navbar; instant scroll
+    target.scrollIntoView({ behavior: 'auto', block: 'start' });
+    if (withAdjustments) {
+        const adjust = () => target.scrollIntoView({ behavior: 'auto', block: 'start' });
+        setTimeout(adjust, 150);
+        setTimeout(adjust, 450);
+    }
+}
+
+// Prevent browser from restoring previous scroll position unexpectedly
+try { if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; } } catch {}
+
+// Smooth scroll handling
+document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a[href^="#"]');
+    if (!anchor) return;
+    const href = anchor.getAttribute('href');
+    if (!href || href === '#') return;
+    if (!document.querySelector(href)) return;
+    e.preventDefault();
+    // Single precise jump to avoid post-scroll shake
+    const needsAdjust = href === '#contact';
+    robustScrollToHash(href, { withAdjustments: needsAdjust });
+    history.replaceState(null, '', href);
 });
 
 // Initialize everything when DOM is loaded
@@ -126,6 +145,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
     lazyLoadImages();
     initContactForm();
+    initRevealAnimations();
+
+    // If page is opened with a hash, ensure we offset correctly after load
+    if (window.location.hash) {
+        const hash = window.location.hash;
+        robustScrollToHash(hash, { withAdjustments: hash === '#contact' });
+    }
+
+    // As a final guard, adjust after full load as well
+    window.addEventListener('load', () => {
+        if (window.location.hash) {
+            const hash = window.location.hash;
+            robustScrollToHash(hash, { withAdjustments: hash === '#contact' });
+        }
+    });
+
 });
 
 // Contact Form Functionality
@@ -211,4 +246,22 @@ function initContactForm() {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
+}
+
+// Subtle scroll reveal animations
+function initRevealAnimations() {
+    const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
+    if (!('IntersectionObserver' in window) || revealElements.length === 0) {
+        revealElements.forEach(el => el.classList.add('is-visible'));
+        return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    revealElements.forEach(el => observer.observe(el));
 }
