@@ -454,9 +454,8 @@ p {
 .contact-section {
     text-align: center;
     padding: 6rem 2rem;
-    background: linear-gradient(135deg, #449fc5 0%, #256fa8 100%);
+    background: linear-gradient(180deg, #449fc5 0%, #256fa8 100%);
     min-height: 80vh;
-    max-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -479,7 +478,7 @@ p {
     grid-template-rows: 1fr auto;
     justify-items: center;
     align-items: center;
-    min-height: 70vh;
+    min-height: 0;
     gap: 1rem;
 }
 .contact-head { align-self: center; }
@@ -489,7 +488,7 @@ p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60vh;
+    min-height: 0;
 }
 
 .contact-section h1 {
@@ -539,11 +538,17 @@ p {
 
 /* Responsive adjustments for contact section */
 @media (max-width: 768px) {
-    .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-inner { grid-template-columns: 1fr; gap: 0.75rem; }
     .contact-copy { text-align: center; align-items: center; justify-content: center; }
-    .contact-section h1 { font-size: 2.2rem; }
-    .contact-subtitle { font-size: 1.05rem; padding: 0 1rem; margin-bottom: 2rem; max-width: 520px; }
-    .contact-form { padding: 2rem; margin: 0 1rem 2rem 1rem; }
+    /* Flatten the left column so its children can be ordered around the form */
+    .contact-copy { display: contents; }
+    .contact-head { grid-row: 1; margin: 0 0 0.25rem 0; }
+    .contact-form { grid-row: 2; }
+    .contact-alternative { grid-row: 3; margin-top: 0.25rem; padding-bottom: 0.5rem; }
+    .contact-section { padding: 1rem 0.75rem; min-height: auto !important; justify-content: flex-start; align-items: stretch; }
+    .contact-section h1 { font-size: 2.6rem; margin: 0 0 0.05rem 0; line-height: 1.03; }
+    .contact-subtitle { font-size: 1.12rem; padding: 0 0.5rem; margin-bottom: 0.25rem; max-width: 520px; }
+    .contact-form { padding: 1.1rem; margin: 0 0.5rem 0.6rem 0.5rem; }
 }
 
 @media (max-width: 480px) {
@@ -1536,6 +1541,14 @@ button {
 
 .contact-alternative {
     padding-bottom: 0rem;
+    margin-top: 1.5rem;
+}
+
+/* Desktop-specific contact layout refinements */
+@media (min-width: 769px) {
+  .contact-copy { min-height: 70vh; }
+  .contact-head { min-height: 60vh; }
+  .contact-alternative { margin-top: 2rem; }
 }
 
 .contact-alternative p {
