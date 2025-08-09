@@ -4,12 +4,25 @@
     --secondary-color: #ffffff;
     --background-color: #ffffff;
     --text-color: #000000;
+    --alt-white: #ffffff;
+    --alt-gray: #e8eff1;
+    --seam-height: 200px;
 }
 
 /* Ensure anchors land correctly beneath fixed navbar */
-#portfolio, #short-form, #results, #about, #contact {
+#short-form, #results {
+    scroll-margin-top: 20px;
+}
+
+#portfolio {
     scroll-margin-top: 88px;
 }
+
+#about, #contact{
+    scroll-margin-top: -20px;
+}
+
+
 
 * {
     margin: 0;
@@ -30,6 +43,75 @@ body {
     color: var(--text-color);
     line-height: 1.6;
 }
+
+/* Alternating section backgrounds with smooth seams */
+.alt-section {
+    position: relative;
+    z-index: 0; /* create stacking context */
+    display: flow-root; /* prevent child margin from collapsing over the top seam */
+}
+
+.alt-white { background: var(--alt-white); }
+.alt-gray { background: var(--alt-gray); }
+.alt-blue { background: transparent; }
+
+/* Smooth gradient seam between consecutive alt sections */
+.alt-section + .alt-section::before {
+    content: none;
+}
+
+/* White to gray (when previous was white and current is gray) */
+.alt-white + .alt-gray {
+    background: linear-gradient(to bottom, var(--alt-white) 0%, var(--alt-gray) 100%) 0 0 / 100% var(--seam-height) no-repeat, var(--alt-gray);
+}
+
+/* Gray to white (when previous was gray and current is white) */
+.alt-gray + .alt-white {
+    background: linear-gradient(to bottom, var(--alt-gray) 0%, var(--alt-white) 100%) 0 0 / 100% var(--seam-height) no-repeat, var(--alt-white);
+}
+
+/* Strong, explicit seam from Testimonials to About using IDs for maximum specificity */
+#results + #about {
+    background: linear-gradient(to bottom, var(--alt-white) 0%, var(--alt-gray) 100%) 0 0 / 100% var(--seam-height) no-repeat, var(--alt-gray);
+}
+
+/* Ensure strong seam specifically between Testimonials and About */
+.results-section.alt-section + .about-section.alt-section {
+    background: linear-gradient(to bottom, var(--alt-white) 0%, var(--alt-gray) 100%) 0 0 / 100% var(--seam-height) no-repeat, var(--alt-gray);
+}
+
+/* Fallback cap-gradient rendered inside About so seam is guaranteed */
+#about.about-section.alt-section.alt-gray { background: var(--alt-gray); }
+
+/* Seam into blue contact section */
+.alt-white + .alt-blue {
+    background: linear-gradient(to bottom, var(--alt-white) 0%, rgba(255,255,255,0) 95%) 0 0 / 100% calc(var(--seam-height) * 2.75) no-repeat, linear-gradient(180deg, #449fc5 0%, #256fa8 100%);
+}
+.alt-gray + .alt-blue {
+    background: linear-gradient(to bottom, var(--alt-gray) 0%, rgba(255,255,255,0) 95%) 0 0 / 100% calc(var(--seam-height) * 2) no-repeat, linear-gradient(180deg, #449fc5 0%, #256fa8 100%);
+}
+
+/* Ensure important foreground elements are always above background seams */
+.info-boxes-container,
+.leftTextVids::before,
+.rightTextVids::before,
+.shorts-section .shorts-container:last-of-type { position: relative; z-index: 2; }
+
+/* Also raise the curved blue border shapes */
+.leftTextVids::before,
+.rightTextVids::before { z-index: 2; }
+
+/* Ensure About subtitle is never affected by any gradient text styles */
+.about-section-header .about-subtitle { color: var(--text-color) !important; -webkit-text-fill-color: initial; }
+
+/* Priority seams for alternating sections (placed late to win cascade) */
+.alt-section > * { position: relative; z-index: 1; }
+
+/* Use background-painted seams to avoid covering content */
+.alt-section + .alt-section::before { content: none !important; }
+
+/* Ensure first section has no seam overlay */
+.alt-first::before { display: none; }
 
 /* Sections with backgrounds */
 .clients-carousel,
@@ -331,8 +413,10 @@ h3::after {
 }
 
 .bigVideo:hover,
-.smallVideo a:hover {
+.smallVideo a:hover,
+.about-image img:hover {
     transform: scale(1.01);
+    transition: transform 0.3s ease;
 }
 
 img {
@@ -389,6 +473,7 @@ p {
     max-width: 1400px;
     margin: 0 auto;
 }
+
 
 .about-image {
     flex: 1;
@@ -659,6 +744,11 @@ p {
     opacity: 1;
     transform: scale(1);
 }
+
+/* Keep section backgrounds/gradients visible immediately; animate content instead */
+.alt-section.reveal { opacity: 1; transform: none; }
+.alt-section.reveal > * { opacity: 0; transform: translateY(16px); transition: opacity 600ms ease, transform 600ms ease; }
+.alt-section.reveal.is-visible > * { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -1420,7 +1510,7 @@ button {
 .contact-form {
     max-width: 680px;
     width: 100%;
-    margin: 0;
+    margin-top: 4rem;
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -1429,6 +1519,7 @@ button {
     border: 1px solid rgba(255, 255, 255, 0.22);
     align-self: center;
     height: auto;
+    
 }
 
 .form-group {
@@ -1594,3 +1685,7 @@ button {
         gap: 3rem;
     }
 }
+
+/* Base fallback colors without overriding gradient layers */
+.alt-section.alt-white { background-color: var(--alt-white); }
+.alt-section.alt-gray { background-color: var(--alt-gray); }
