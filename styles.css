@@ -1689,3 +1689,12 @@ button {
 /* Base fallback colors without overriding gradient layers */
 .alt-section.alt-white { background-color: var(--alt-white); }
 .alt-section.alt-gray { background-color: var(--alt-gray); }
+
+@media (max-width: 768px) {
+    .alt-white + .alt-blue {
+        background: linear-gradient(to bottom, var(--alt-white) 0%, rgba(255,255,255,0) 95%) 0 0 / 100% calc(var(--seam-height) * 0.75) no-repeat, linear-gradient(180deg, #449fc5 0%, #256fa8 100%);
+    }
+    .alt-gray + .alt-blue {
+        background: linear-gradient(to bottom, var(--alt-gray) 0%, rgba(255,255,255,0) 95%) 0 0 / 100% calc(var(--seam-height) * 0.75) no-repeat, linear-gradient(180deg, #449fc5 0%, #256fa8 100%);
+    }
+}
