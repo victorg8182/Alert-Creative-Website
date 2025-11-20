@@ -7,6 +7,7 @@ const clientLogos = [
     { name: 'Larry King', logo: 'pfps/larry king.jpg', channelLink: 'https://www.youtube.com/@LarryKingExclusive' },
     { name: 'Cluely', logo: 'pfps/cluely.jpg', channelLink: 'https://cluely.com' },
     { name: 'a16z', logo: 'pfps/a16z.png', channelLink: 'https://a16z.com' },
+    { name: 'Lindy', logo: 'pfps/lindy.jpg', channelLink: 'https://www.lindy.ai/' },
     { name: 'Chronic', logo: 'pfps/chronic.jpg', channelLink: 'https://www.youtube.com/@ChronicIRL' },
     { name: 'Jake Webber Live', logo: 'pfps/jake webber live.jpg', channelLink: 'https://www.youtube.com/@JakeWebberLive' },
     { name: 'Dom Brack', logo: 'pfps/dom brack.jpg', channelLink: 'https://www.youtube.com/@DominicBrack' },
