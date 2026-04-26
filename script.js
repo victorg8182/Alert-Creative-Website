@@ -242,6 +242,14 @@ function initXCursor() {
 
 initXCursor();
 
+function flagSafariBrowser() {
+  const ua = navigator.userAgent;
+  const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|Chromium|Edg|OPR/i.test(ua);
+  document.documentElement.classList.toggle('is-safari', isSafari);
+}
+
+flagSafariBrowser();
+
 function initSubtleReveals() {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;

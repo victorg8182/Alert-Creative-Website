@@ -1277,8 +1277,11 @@ main{
   display: block;
 }
 .founder-photo-rotated{
-  transform: rotate(-90deg) scale(1.06);
+  transform: scale(1.06);
   transform-origin: center;
+}
+.is-safari .founder-photo-rotated{
+  transform: rotate(-90deg) scale(1.06);
 }
 
 .contact-v2{
