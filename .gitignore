@@ -65,3 +65,13 @@ bower_components
 
 # Configuration files with sensitive data
 config.js 
+# Local-only legacy assets
+index.js
+other_assets/
+package-lock.json
+pfps/
+portfolio project.code-workspace
+results/
+scraps/
+uploads/
+pics/
