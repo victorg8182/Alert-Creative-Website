@@ -69,7 +69,6 @@ config.js
 index.js
 other_assets/
 package-lock.json
-pfps/
 portfolio project.code-workspace
 results/
 scraps/
