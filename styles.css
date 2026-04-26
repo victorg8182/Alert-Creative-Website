@@ -1624,4 +1624,49 @@ textarea:focus-visible{
   .section-index-ghost{
     display: none;
   }
+
+  .hero-v4{
+    padding: clamp(56px, 12vh, 82px) var(--pad) clamp(44px, 8vh, 70px);
+  }
+  .hv4-row{
+    gap: 8px;
+    padding-left: 20px;
+  }
+  .hv4-row1-word,
+  .hv4-row2-word{
+    font-size: clamp(58px, 18vw, 104px);
+    line-height: .84;
+    letter-spacing: -0.04em;
+  }
+  .hv4-row2-word{
+    padding-left: 0;
+  }
+  .hv4-sub-custom{
+    margin: 6px 0 0;
+    padding-left: 8px;
+    font-size: clamp(16px, 4.8vw, 22px);
+    white-space: normal;
+    max-width: 22ch;
+  }
+
+  .stats-v2-head{
+    width: 100%;
+    align-items: stretch;
+  }
+  .stats-v2-big{
+    width: 100%;
+    text-align: right;
+  }
+}
+
+@media (max-width: 900px){
+  .hv4-bar-custom,
+  .hv4-bar-custom::after{
+    display: none;
+  }
+
+  .stats-v2-arrow,
+  .stats-v2-arrow::after{
+    display: none;
+  }
 }
