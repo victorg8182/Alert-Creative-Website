@@ -1280,9 +1280,6 @@ main{
   transform: scale(1.06);
   transform-origin: center;
 }
-.is-safari .founder-photo-rotated{
-  transform: rotate(-90deg) scale(1.06);
-}
 
 .contact-v2{
   margin: 0 0 clamp(40px, 7vh, 90px);
