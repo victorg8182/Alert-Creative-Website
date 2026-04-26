@@ -1656,6 +1656,8 @@ textarea:focus-visible{
   .stats-v2-big{
     width: 100%;
     text-align: right;
+    font-size: clamp(65px, 15vw, 110px);
+    line-height: .94;
   }
 }
 
