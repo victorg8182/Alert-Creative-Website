@@ -218,7 +218,7 @@ main{
 .ticker-track > span{ padding-right: 2ch; }
 @keyframes tickermove{ from{transform: translateX(0);} to{transform: translateX(-50%);} }
 
-/* ============ HERO v4 (stacked alert/creative, sub beside alert, line beside creative) ============ */
+/* ============ HERO v4 (stacked alert/creative, sub right-aligned beside creative) ============ */
 .hero-v4{
   padding: clamp(80px, 15vh, 110px) clamp(30px, 4.5vw, 72px) clamp(100px, 15vh, 100px);
   position: relative;
@@ -289,23 +289,9 @@ main{
   text-wrap: pretty;
 }
 
-.hv4-bar{
-  display: block;
-  height: 2px;
-  background: var(--ink);
-  width: auto;
-  margin-left: 0;
-  transform-origin: left;
-  animation: ruledraw 1.1s cubic-bezier(.2,.6,.2,1) both .2s;
-  flex: 1;
-}
-
 @media (max-width: 760px){
   .hv4-row{ flex-direction: column; align-items: flex-start; }
   .hv4-sub{ max-width: 100%; }
-  .hv4-bar{ margin-left: 0; }
-  .hv4-row2-word{ grid-column: 1; grid-row: 3; }
-  .hv4-bar{ grid-column: 1; grid-row: 4; width: 120px; margin-bottom: 0; }
 }
 
 /* ============ HERO v2 ============ */
@@ -1435,38 +1421,14 @@ main{
   line-height: .78;
 }
 
-.hv4-row2-word{
-  padding-left: clamp(60px, 5.4vw, 100px);
-}
-
-.hv4-sub-custom{  
-  margin: 0 0 clamp(42px, 1.2vw, 24px) clamp(12px, 1vw, 18px);
+.hv4-sub-custom{
+  margin: 0 0 clamp(42px, 1.2vw, 24px) auto;
+  padding-right: clamp(8px, 1.4vw, 24px);
   font-size: clamp(24px, 2vw, 34px);
   font-weight: 400;
   letter-spacing: -0.02em;
-  text-align: left;
+  text-align: right;
   white-space: nowrap;
-}
-
-.hv4-bar-custom{
-  height: clamp(6px, .48vw, 9px);
-  margin: clamp(12px, .7vw, 14px) 0 0 clamp(10px, 1vw, 16px);
-  flex: 0 1 clamp(800px, 99vw, 1280px);
-  min-width: clamp(190px, 26vw, 500px);
-  position: relative;
-}
-
-.hv4-bar-custom::after{
-  content: "";
-  position: absolute;
-  right: -1px;
-  top: 50%;
-  width: clamp(14px, 1.35vw, 20px);
-  height: clamp(14px, 1.35vw, 20px);
-  border-top: clamp(4px, .34vw, 6px) solid var(--ink);
-  border-right: clamp(4px, .34vw, 6px) solid var(--ink);
-  transform: translateY(-50%) rotate(45deg);
-  box-sizing: border-box;
 }
 
 @media (max-width: 1100px){
@@ -1638,15 +1600,13 @@ textarea:focus-visible{
     line-height: .84;
     letter-spacing: -0.04em;
   }
-  .hv4-row2-word{
-    padding-left: 0;
-  }
   .hv4-sub-custom{
-    margin: 6px 0 0;
-    padding-left: 8px;
+    margin: 6px 0 0 0;
+    padding-right: 0;
     font-size: clamp(16px, 4.8vw, 22px);
     white-space: normal;
     max-width: 22ch;
+    text-align: left;
   }
 
   .stats-v2-head{
@@ -1658,13 +1618,6 @@ textarea:focus-visible{
     text-align: right;
     font-size: clamp(65px, 15vw, 110px);
     line-height: .94;
-  }
-}
-
-@media (max-width: 900px){
-  .hv4-bar-custom,
-  .hv4-bar-custom::after{
-    display: none;
   }
 
   .stats-v2-arrow,
