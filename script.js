@@ -153,9 +153,9 @@ function initLuxuryScroll() {
 
   const animate = () => {
     const delta = targetY - currentY;
-    currentY += delta * 0.06;
+    currentY += delta * 0.1;
 
-    if (Math.abs(delta) < 0.35) {
+    if (Math.abs(delta) < 0.5) {
       currentY = targetY;
       window.scrollTo(0, currentY);
       rafId = null;
@@ -176,7 +176,7 @@ function initLuxuryScroll() {
     (event) => {
       if (!event.cancelable) return;
       event.preventDefault();
-      targetY = clampTarget(targetY + event.deltaY * 0.7);
+      targetY = clampTarget(targetY + event.deltaY * 0.85);
       kickAnimation();
     },
     { passive: false }
