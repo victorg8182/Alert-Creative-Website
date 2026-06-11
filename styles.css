@@ -220,7 +220,7 @@ main{
 
 /* ============ HERO v4 (stacked alert/creative, sub right-aligned beside creative) ============ */
 .hero-v4{
-  padding: clamp(80px, 15vh, 110px) clamp(30px, 4.5vw, 72px) clamp(100px, 15vh, 100px);
+  padding: clamp(100px, 18vh, 140px) clamp(30px, 4.5vw, 72px) clamp(80px, 14vh, 120px);
   position: relative;
 }
 .hero-v4::before{
@@ -533,8 +533,8 @@ main{
 .grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pad);
-  padding: var(--pad);
+  gap: 2px;
+  padding: 2px var(--pad);
 }
 .tile{
   display: block;
@@ -1174,7 +1174,7 @@ main{
 
 .stats-v2-big{
   margin: 0;
-  font-size: clamp(98px, 14.7vw, 2550px);
+  font-size: clamp(80px, 10.5vw, 185px);
   line-height: .86;
   letter-spacing: -0.05em;
   font-weight: 900;
@@ -1222,7 +1222,7 @@ main{
 .founder{
   padding: var(--pad);
   display: grid;
-  grid-template-columns: minmax(280px, .82fr) minmax(440px, 1.18fr);
+  grid-template-columns: minmax(440px, 1.18fr) minmax(280px, .82fr);
   gap: clamp(12px, 1.6vw, 22px);
   align-items: stretch;
 }
@@ -1404,7 +1404,7 @@ main{
   .stats-v2{ grid-template-columns: 1fr; min-height: 0; }
   .stats-v2-head{ align-items: flex-end; }
   .stats-v2-arrow{ margin-top: 0; }
-  .stats-v2-cards{ grid-template-columns: 1fr; }
+  .stats-v2-cards{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stat-box{ min-height: 0; }
   .founder{ grid-template-columns: 1fr; }
   .contact-v2{ grid-template-columns: 1fr; }
@@ -1422,7 +1422,7 @@ main{
 }
 
 .hv4-sub-custom{
-  margin: 0 0 clamp(42px, 1.2vw, 24px) auto;
+  margin: 0 0 clamp(12px, 2vw, 28px) auto;
   padding-right: clamp(8px, 1.4vw, 24px);
   font-size: clamp(24px, 2vw, 34px);
   font-weight: 400;
@@ -1462,7 +1462,7 @@ main{
 }
 
 .tile{
-  border: 1px solid rgba(var(--white-soft-rgb), .18);
+  border: none;
 }
 
 .tile-caption{
@@ -1625,3 +1625,29 @@ textarea:focus-visible{
     display: none;
   }
 }
+
+/* ============ FOOTER ============ */
+.site-footer{
+  border-top: 1px solid var(--line);
+  padding: clamp(18px, 2.5vw, 28px) var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.site-footer-copy{
+  font-size: 11px;
+  color: var(--muted-2);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+.site-footer-email{
+  font-size: 11px;
+  color: var(--muted-2);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: color var(--motion-fast) var(--motion-ease);
+}
+.site-footer-email:hover{ color: var(--ink); }

@@ -1,6 +1,6 @@
 // ========== CONFIG (editable via Tweaks) ==========
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "accent": "#0A0A0A",
+  "accent": "#f6f1e7",
   "halftone": true
 }/*EDITMODE-END*/;
 
@@ -273,8 +273,8 @@ function initSubtleReveals() {
     },
     {
       root: null,
-      threshold: 0.16,
-      rootMargin: '0px 0px -8% 0px'
+      threshold: 0.06,
+      rootMargin: '0px 0px -2% 0px'
     }
   );
 
