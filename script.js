@@ -306,6 +306,7 @@ function initCounters() {
   }, { threshold: 0.6 });
 
   counters.forEach((el) => {
+    el.style.minWidth = `${el.getBoundingClientRect().width}px`;
     el.textContent = '0';
     observer.observe(el);
   });

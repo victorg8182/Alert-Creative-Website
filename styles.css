@@ -30,6 +30,9 @@
 *{ box-sizing: border-box; }
 html, body{ margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
 html{ scroll-padding-top: var(--rail-h); }
+@media (prefers-reduced-motion: no-preference){
+  html:not(.lenis){ scroll-behavior: smooth; }
+}
 body{
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -472,6 +475,7 @@ html.lenis, html.lenis body{ height: auto; }
   font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
+[data-count]{ display: inline-block; text-align: right; }
 .stat-label{
   margin: 0;
   font-size: clamp(14px, 1.1vw, 17px);
