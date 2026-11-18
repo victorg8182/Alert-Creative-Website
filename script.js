@@ -44,15 +44,6 @@ document.getElementById('tw-swatches').addEventListener('click', (e) => {
 });
 document.getElementById('tw-color-custom').addEventListener('input', (e) => pushEdits({ accent: e.target.value }));
 
-const newsletterForm = document.querySelector('.foot-form');
-if (newsletterForm) {
-  newsletterForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const button = newsletterForm.querySelector('button');
-    if (button) button.textContent = 'Subscribed ✓';
-  });
-}
-
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
@@ -138,147 +129,186 @@ function initContactForm() {
 
 initContactForm();
 
-function initLuxuryScroll() {
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) return;
+// ========== SMOOTH SCROLL ==========
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  let targetY = window.scrollY || window.pageYOffset;
-  let currentY = targetY;
-  let rafId = null;
-
-  const clampTarget = (value) => {
-    const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    return Math.min(Math.max(value, 0), maxScroll);
-  };
-
-  const animate = () => {
-    const delta = targetY - currentY;
-    currentY += delta * 0.1;
-
-    if (Math.abs(delta) < 0.5) {
-      currentY = targetY;
-      window.scrollTo(0, currentY);
-      rafId = null;
-      return;
-    }
-
-    window.scrollTo(0, currentY);
-    rafId = window.requestAnimationFrame(animate);
-  };
-
-  const kickAnimation = () => {
-    if (rafId !== null) return;
-    rafId = window.requestAnimationFrame(animate);
-  };
-
-  window.addEventListener(
-    'wheel',
-    (event) => {
-      if (!event.cancelable) return;
-      event.preventDefault();
-      targetY = clampTarget(targetY + event.deltaY * 0.85);
-      kickAnimation();
-    },
-    { passive: false }
-  );
-
-  window.addEventListener('scroll', () => {
-    if (rafId === null) {
-      targetY = window.scrollY || window.pageYOffset;
-      currentY = targetY;
-    }
-  });
-
-  window.addEventListener('resize', () => {
-    targetY = clampTarget(targetY);
-  });
+function initSmoothScroll() {
+  if (prefersReducedMotion || !finePointer || typeof window.Lenis !== 'function') return;
+  new window.Lenis({ autoRaf: true, anchors: { offset: 0 }, lerp: 0.11, allowNestedScroll: true });
 }
 
-initLuxuryScroll();
+initSmoothScroll();
 
+// ========== CUSTOM CURSOR ==========
 function initXCursor() {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (!finePointer) return;
 
+  const root = document.documentElement;
   const dot = document.createElement('div');
   dot.className = 'x-cursor';
   const ring = document.createElement('div');
   ring.className = 'x-cursor-ring';
-  document.body.appendChild(ring);
-  document.body.appendChild(dot);
+  document.body.append(ring, dot);
 
-  let targetX = window.innerWidth / 2;
-  let targetY = window.innerHeight / 2;
-  let dotX = targetX;
-  let dotY = targetY;
-  let ringX = targetX;
-  let ringY = targetY;
+  const interactive = 'a, button, [role="button"], label, summary, .tile';
+  const textual = 'input, textarea, select, [contenteditable="true"]';
+  let x = 0;
+  let y = 0;
+  let ringX = 0;
+  let ringY = 0;
   let rafId = null;
+  let started = false;
 
-  const animate = () => {
-    dotX += (targetX - dotX) * 0.3;
-    dotY += (targetY - dotY) * 0.3;
-    ringX += (targetX - ringX) * 0.14;
-    ringY += (targetY - ringY) * 0.14;
-
-    dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
-    ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-    rafId = window.requestAnimationFrame(animate);
+  const tick = () => {
+    ringX += (x - ringX) * 0.2;
+    ringY += (y - ringY) * 0.2;
+    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+    if (Math.abs(x - ringX) < 0.1 && Math.abs(y - ringY) < 0.1) {
+      rafId = null;
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
   };
 
-  const onMove = (event) => {
-    targetX = event.clientX;
-    targetY = event.clientY;
-    dot.style.opacity = '1';
-    ring.style.opacity = '1';
-    if (!rafId) rafId = window.requestAnimationFrame(animate);
+  const setVisible = (visible) => {
+    dot.classList.toggle('is-visible', visible);
+    ring.classList.toggle('is-visible', visible);
   };
 
-  window.addEventListener('mousemove', onMove, { passive: true });
-  window.addEventListener('mouseleave', () => {
-    dot.style.opacity = '0';
-    ring.style.opacity = '0';
-  });
+  window.addEventListener('pointermove', (event) => {
+    if (event.pointerType !== 'mouse') return;
+    x = event.clientX;
+    y = event.clientY;
+    if (!started) {
+      started = true;
+      ringX = x;
+      ringY = y;
+      root.classList.add('has-custom-cursor');
+    }
+    dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    setVisible(true);
+
+    const target = event.target instanceof Element ? event.target : null;
+    const onText = !!(target && target.closest(textual));
+    const onLink = !onText && !!(target && target.closest(interactive));
+    dot.classList.toggle('is-text', onText);
+    ring.classList.toggle('is-text', onText);
+    dot.classList.toggle('is-hover', onLink);
+    ring.classList.toggle('is-hover', onLink);
+
+    if (rafId === null) rafId = requestAnimationFrame(tick);
+  }, { passive: true });
+
+  window.addEventListener('pointerdown', () => ring.classList.add('is-down'), { passive: true });
+  window.addEventListener('pointerup', () => ring.classList.remove('is-down'), { passive: true });
+  document.addEventListener('mouseleave', () => setVisible(false));
+  document.addEventListener('mouseenter', () => { if (started) setVisible(true); });
+  window.addEventListener('blur', () => setVisible(false));
 }
 
 initXCursor();
 
-function initSubtleReveals() {
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) return;
+// ========== IMAGE FADE-IN ==========
+function initImageFade() {
+  document.querySelectorAll('.tile-media img, .founder-photo').forEach((img) => {
+    const done = () => img.classList.add('is-loaded');
+    if (img.complete && img.naturalWidth) {
+      done();
+    } else {
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    }
+  });
+}
 
+initImageFade();
+
+// ========== SCROLL REVEALS ==========
+function initReveals() {
   const groups = [
-    '.hero-v4 .hv4-row, .hero-v4 .hv4-sub',
     '.services-strip > *',
     '.grid .tile',
     '.section-index-strip > *',
     '.stats-v2-lead > *',
     '.stats-v2-cards .stat-box',
     '.founder > *',
-    '.contact-v2 > *'
+    '.contact-left > *',
+    '.contact-form'
   ];
 
-  const revealItems = groups.flatMap((selector) => Array.from(document.querySelectorAll(selector)));
-  revealItems.forEach((el, index) => {
-    el.classList.add('reveal');
-    el.style.transitionDelay = `${Math.min((index % 6) * 45, 180)}ms`;
+  const tracked = new Set();
+  groups.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((el, index) => {
+      if (tracked.has(el)) return;
+      tracked.add(el);
+      if (!prefersReducedMotion) {
+        el.classList.add('reveal');
+        const stagger = el.matches('.tile') ? (index % 2) * 90 : Math.min(index, 4) * 80;
+        el.style.setProperty('--reveal-delay', `${stagger}ms`);
+      }
+    });
   });
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    },
-    {
-      root: null,
-      threshold: 0.06,
-      rootMargin: '0px 0px -2% 0px'
-    }
-  );
+  const finish = (el) => {
+    el.classList.remove('reveal', 'is-visible');
+    el.style.removeProperty('--reveal-delay');
+  };
 
-  revealItems.forEach((item) => observer.observe(item));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      observer.unobserve(el);
+      el.classList.add('in-view');
+      if (!el.classList.contains('reveal')) return;
+      el.classList.add('is-visible');
+      // Drop reveal styles once done so hover transitions aren't delayed.
+      const onEnd = (event) => {
+        if (event.target !== el || event.propertyName !== 'transform') return;
+        el.removeEventListener('transitionend', onEnd);
+        finish(el);
+      };
+      el.addEventListener('transitionend', onEnd);
+      window.setTimeout(() => finish(el), 2000);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+  tracked.forEach((el) => observer.observe(el));
 }
 
-initSubtleReveals();
+initReveals();
+
+// ========== COUNT-UP STATS ==========
+function initCounters() {
+  const counters = document.querySelectorAll('[data-count]');
+  if (!counters.length || prefersReducedMotion) return;
+
+  const ease = (t) => 1 - Math.pow(1 - t, 4);
+  const run = (el) => {
+    const target = Number(el.dataset.count);
+    const duration = 1600;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      el.textContent = String(Math.round(target * ease(t)));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      run(entry.target);
+    });
+  }, { threshold: 0.6 });
+
+  counters.forEach((el) => {
+    el.textContent = '0';
+    observer.observe(el);
+  });
+}
+
+initCounters();
