@@ -163,7 +163,7 @@ function initXCursor() {
   const tick = () => {
     ringX += (x - ringX) * 0.2;
     ringY += (y - ringY) * 0.2;
-    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+    ring.style.translate = `${ringX}px ${ringY}px`;
     if (Math.abs(x - ringX) < 0.1 && Math.abs(y - ringY) < 0.1) {
       rafId = null;
       return;
@@ -186,7 +186,7 @@ function initXCursor() {
       ringY = y;
       root.classList.add('has-custom-cursor');
     }
-    dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    dot.style.translate = `${x}px ${y}px`;
     setVisible(true);
 
     const target = event.target instanceof Element ? event.target : null;

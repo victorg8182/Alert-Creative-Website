@@ -78,7 +78,7 @@ html.lenis, html.lenis body{ height: auto; }
   pointer-events: none;
   opacity: 0;
   mix-blend-mode: difference;
-  will-change: transform;
+  will-change: translate;
 }
 .x-cursor{
   width: 8px;
